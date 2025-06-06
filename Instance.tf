@@ -3,27 +3,29 @@
 # -----------------------------------------------------------------------------
 # This resource creates an EC2 instance using the specified AMI and instance type.
 # - The AMI ID is dynamically selected based on the region from the `amiID` variable.
-# - The instance type is set to `t2.micro` for cost-effective usage.
-# - The SSH key pair `terraform-mpro-key` is used for secure access.
-# - The instance is associated with a security group defined in `SecurityGroup.tf`.
-# - The instance is launched in the availability zone specified by `var.zone1`.
+# - The instance is launched in the specified availability zone (`zone1`).
+# - The instance uses a specified SSH key pair for access.
+# - Security group is referenced from a separately defined resource.
 # - Tags are applied for identification and project tracking.
 #
 # Connection Block:
-# - Configures SSH access using the username from `var.webuser` and the private key file.
-# - Uses the instance's public IP for remote access.
+# - Configures SSH connection using the provided username and private key.
+# - The connection is used for provisioning and remote execution.
 #
-# Provisioner Block:
-# - Executes a shell script (`/tmp/web.sh`) on the instance after launch.
-# - Ensures the script is executable and runs it with sudo privileges.
-# -----------------------------------------------------------------------------
-
+# Provisioners:
+# - `remote-exec`: Executes a shell script (`web.sh`) on the instance after launch.
+# - `local-exec`: Appends the instance's private IP to a local file (`private_ips.txt`).
+#
 # -----------------------------------------------------------------------------
 # AWS EC2 Instance State Resource
 # -----------------------------------------------------------------------------
-# This resource ensures the EC2 instance remains in the "running" state.
-# - References the instance created above.
-# - Helps maintain the desired state of the instance.
+# Ensures the EC2 instance is in the "running" state after creation.
+#
+# -----------------------------------------------------------------------------
+# Outputs
+# -----------------------------------------------------------------------------
+# - `WebPublicIP`: Outputs the public IP address of the web instance.
+# - `WebPrivateIP`: Outputs the private IP address of the web instance.
 # -----------------------------------------------------------------------------
 
 resource "aws_instance" "web" {
@@ -48,12 +50,24 @@ resource "aws_instance" "web" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/web.sh", # Ensure the script is executable
-      "sudo /tmp/web.sh" # Execute the script with sudo privileges
+      "sudo /tmp/web.sh"      # Execute the script with sudo privileges
     ]
+  }
+  provisioner "local-exec" {
+    command = "echo ${self.private_ip} >> private_ips.txt"
   }
 }
 
 resource "aws_ec2_instance_state" "web-state" {
   instance_id = aws_instance.web.id
   state       = "running" # Ensure the instance is in a running state
+}
+
+output "WebPublicIP" {
+  description = "Public IP of Ubuntu instance"
+  value       = aws_instance.web.public_ip # Output the public IP of the web instance
+}
+output "WebPrivateIP" {
+  description = "Private IP of Ubuntu instance"
+  value       = aws_instance.web.private_ip # Output the Private IP of the web instance
 }
