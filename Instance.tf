@@ -46,7 +46,10 @@ resource "aws_instance" "web" {
     private_key = file("terraform-mpro-key") # Path to your private key file
     host        = self.public_ip
   }
-
+  provisioner "file" {
+    source      = "web.sh"             # Path to the shell script to be executed on the instance
+    destination = "/tmp/web.sh" # Destination path on the instance
+  }
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/web.sh", # Ensure the script is executable
