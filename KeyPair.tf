@@ -16,6 +16,6 @@
 # -----------------------------------------------------------------------------
 
 resource "aws_key_pair" "terraform-mpro-key" {
-  key_name   = "terraform-mpro-key"                                                                              # Replace with your SSH key name
-  public_key = "Your Key Here" # Replace with your actual public key
+  key_name   = "terraform-mpro-key" # Replace with your SSH key name
+  public_key = "Your Public SSH KEY"      # Replace with your actual public key
 }

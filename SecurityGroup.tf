@@ -33,7 +33,7 @@ resource "aws_security_group" "terraform-ec2-setup-sg" {
 # Allow SSH access from a specific IP address
 resource "aws_vpc_security_group_ingress_rule" "ssh_from_my_ip" {
   security_group_id = aws_security_group.terraform-ec2-setup-sg.id
-  cidr_ipv4         = "174.89.162.146/32" # Replace with your actual IP address
+  cidr_ipv4         = "YOUR_IP/32" # Replace with your actual IP address
   from_port         = 22
   ip_protocol       = "tcp"
   to_port           = 22
@@ -42,7 +42,7 @@ resource "aws_vpc_security_group_ingress_rule" "ssh_from_my_ip" {
 # Allow HTTP access from My IP address
 resource "aws_vpc_security_group_ingress_rule" "allow_http_from_my_ip" {
   security_group_id = aws_security_group.terraform-ec2-setup-sg.id
-  cidr_ipv4         = "174.89.162.146/32" # Replace with your actual IP address
+  cidr_ipv4         = "YOUR_IP/32" # Replace with your actual IP address
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80

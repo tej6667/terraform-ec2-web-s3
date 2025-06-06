@@ -2,30 +2,32 @@
 # AWS EC2 Instance Resource for Web Server
 # -----------------------------------------------------------------------------
 # This resource creates an EC2 instance using the specified AMI and instance type.
-# - The AMI ID is dynamically selected based on the region from the `amiID` variable.
-# - The instance is launched in the specified availability zone (`zone1`).
-# - The instance uses a specified SSH key pair for access.
-# - Security group is referenced from a separately defined resource.
-# - Tags are applied for identification and project tracking.
-#
-# Connection Block:
-# - Configures SSH connection using the provided username and private key.
-# - The connection is used for provisioning and remote execution.
-#
-# Provisioners:
-# - `remote-exec`: Executes a shell script (`web.sh`) on the instance after launch.
-# - `local-exec`: Appends the instance's private IP to a local file (`private_ips.txt`).
-#
+# - The AMI ID is dynamically selected from a variable map based on the region.
+# - The instance is associated with a security group defined elsewhere.
+# - The instance is launched in a specific availability zone.
+# - SSH connection details are provided for provisioning.
+# - A shell script (web.sh) is uploaded and executed on the instance.
+# - The instance's private IP is appended to a local file for tracking.
+# - Tags are applied for identification and project grouping.
+# -----------------------------------------------------------------------------
+
 # -----------------------------------------------------------------------------
 # AWS EC2 Instance State Resource
 # -----------------------------------------------------------------------------
-# Ensures the EC2 instance is in the "running" state after creation.
+# This resource ensures that the EC2 instance remains in the "running" state.
+# It references the instance created above and manages its state accordingly.
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Output Values
+# -----------------------------------------------------------------------------
+# WebPublicIP:
+#   - Outputs the public IP address of the web EC2 instance.
+#   - Useful for accessing the instance over the internet.
 #
-# -----------------------------------------------------------------------------
-# Outputs
-# -----------------------------------------------------------------------------
-# - `WebPublicIP`: Outputs the public IP address of the web instance.
-# - `WebPrivateIP`: Outputs the private IP address of the web instance.
+# WebPrivateIP:
+#   - Outputs the private IP address of the web EC2 instance.
+#   - Useful for internal networking or debugging.
 # -----------------------------------------------------------------------------
 
 resource "aws_instance" "web" {
@@ -47,7 +49,7 @@ resource "aws_instance" "web" {
     host        = self.public_ip
   }
   provisioner "file" {
-    source      = "web.sh"             # Path to the shell script to be executed on the instance
+    source      = "web.sh"      # Path to the shell script to be executed on the instance
     destination = "/tmp/web.sh" # Destination path on the instance
   }
   provisioner "remote-exec" {
