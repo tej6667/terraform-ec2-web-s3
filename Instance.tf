@@ -33,7 +33,8 @@
 resource "aws_instance" "web" {
   ami                    = var.amiID[var.region] # Reference the AMI ID from the variable defined in variables.tf
   instance_type          = "t2.micro"
-  key_name               = "terraform-mpro-key"                           # Your SSH key pair name
+  key_name               = "terraform-mpro-key"  
+  subnet_id              = aws_subnet.Terraform_VPC-pub-1.id           # Your SSH key pair name
   vpc_security_group_ids = [aws_security_group.terraform-ec2-setup-sg.id] # Reference the security group created in SecurityGroup.tf
   availability_zone      = var.zone1                                      # Specify the availability zone
 
