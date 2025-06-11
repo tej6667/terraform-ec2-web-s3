@@ -1,0 +1,8 @@
+terraform-mpro-key*
+.terraform
+.terraform.lock*
+*.tfstate
+*.tfstate.*
+crash.log
+private_ips.txt
+.DS_Store

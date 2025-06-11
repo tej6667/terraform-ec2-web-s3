@@ -2,12 +2,18 @@
 
 # AWS region where resources will be created.
 variable "region" {
-  default = "us-east-1" # Default AWS region
+  default = "us-east-2" # Default AWS region
 }
 
 # AWS availability zone within the region.
 variable "zone1" {
-  default = "us-east-1a" # Default availability zone
+  default = "us-east-2a" # Default availability zone
+}
+variable "zone2" {
+  default = "us-east-2b" # Default availability zone
+}
+variable "zone3" {
+  default = "us-east-2c" # Default availability zone
 }
 variable "webuser" {
   default = "ubuntu" # Default user
