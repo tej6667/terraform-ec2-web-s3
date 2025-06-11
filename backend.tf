@@ -13,10 +13,10 @@
 #----------------------------------------------------------------------
 terraform {
   backend "s3" {
-    bucket = "BucketName" # Replace with your S3 bucket name
-    key    = "terraform/tfstate" # Path within the bucket
+    bucket = "REPLACE-WITH-YOUR_BUCKET-NAME" # Replace with your S3 bucket name
+    key    = "terraform/tfstate"    # Path within the bucket
     # This key can be customized based on your project structure
     # For example, you might use "terraform/production/tfstate" for production environments.
-    region = "us-east-1" # Specify your AWS region
+    region = "us-east-2" # Specify your AWS region
   }
 }

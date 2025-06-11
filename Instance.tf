@@ -33,8 +33,8 @@
 resource "aws_instance" "web" {
   ami                    = var.amiID[var.region] # Reference the AMI ID from the variable defined in variables.tf
   instance_type          = "t2.micro"
-  key_name               = "terraform-mpro-key"  
-  subnet_id              = aws_subnet.Terraform_VPC-pub-1.id           # Your SSH key pair name
+  key_name               = "terraform-vpc-ssh-key" #REPLACE WITH YOUR SSH KEY NAME
+  subnet_id              = aws_subnet.Terraform_VPC-pub-1.id              # Reference the public subnet created in VPC.tf
   vpc_security_group_ids = [aws_security_group.terraform-ec2-setup-sg.id] # Reference the security group created in SecurityGroup.tf
   availability_zone      = var.zone1                                      # Specify the availability zone
 
@@ -44,9 +44,9 @@ resource "aws_instance" "web" {
     Project = "terraform-ec2-web-s3"
   }
   connection {
-    type        = "ssh"                      # Use SSH for connection
-    user        = var.webuser                # Username for SSH connection, defined in variables.tf
-    private_key = file("terraform-mpro-key") # Path to your private key file
+    type        = "ssh"                         # Use SSH for connection
+    user        = var.webuser                   # Username for SSH connection, defined in variables.tf
+    private_key = file("terraform-vpc-ssh-key") # REPLACE WITH YOUR SSH PRIVATE KEY FILE PATH
     host        = self.public_ip
   }
   provisioner "file" {

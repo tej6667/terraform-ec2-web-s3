@@ -1,4 +1,4 @@
-terraform-mpro-key*
+terraform-vpc-ssh-key*
 .terraform
 .terraform.lock*
 *.tfstate

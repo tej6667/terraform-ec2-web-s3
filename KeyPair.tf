@@ -15,7 +15,7 @@
 #   - Ensure the public key is in the correct OpenSSH format.
 # -----------------------------------------------------------------------------
 
-resource "aws_key_pair" "terraform-mpro-key" {
-  key_name   = "terraform-mpro-key" # Replace with your SSH key name
-  public_key = "Your Public SSH KEY"      # Replace with your actual public key
+resource "aws_key_pair" "terraform-vpc-ssh-key" {
+  key_name   = "terraform-vpc-ssh-key" #REPLACE WITH YOUR SSH KEY NAME                                                                          # Replace with your SSH key name
+  public_key = "REPLACE PUBLIC KEY" # Replace with your actual public key
 }

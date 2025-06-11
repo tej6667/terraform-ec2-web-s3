@@ -23,7 +23,7 @@
 resource "aws_security_group" "terraform-ec2-setup-sg" {
   name        = "terraform-ec2-setup-sg"
   description = "Allow TLS inbound traffic and all outbound traffic"
-  #vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.Terraform_VPC.id #REPLACE WITH YOUR VPC ID IF NEEDED
 
   tags = {
     Name = "terraform-ec2-setup-sg"
@@ -33,7 +33,7 @@ resource "aws_security_group" "terraform-ec2-setup-sg" {
 # Allow SSH access from a specific IP address
 resource "aws_vpc_security_group_ingress_rule" "ssh_from_my_ip" {
   security_group_id = aws_security_group.terraform-ec2-setup-sg.id
-  cidr_ipv4         = "YOUR_IP/32" # Replace with your actual IP address
+  cidr_ipv4         = "REPLACE YOUR IP/32" # Replace with your actual IP address
   from_port         = 22
   ip_protocol       = "tcp"
   to_port           = 22
@@ -42,7 +42,7 @@ resource "aws_vpc_security_group_ingress_rule" "ssh_from_my_ip" {
 # Allow HTTP access from My IP address
 resource "aws_vpc_security_group_ingress_rule" "allow_http_from_my_ip" {
   security_group_id = aws_security_group.terraform-ec2-setup-sg.id
-  cidr_ipv4         = "YOUR_IP/32" # Replace with your actual IP address
+  cidr_ipv4         = "REPLACE YOUR IP/32" # Replace with your actual IP address
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80

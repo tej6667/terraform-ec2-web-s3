@@ -24,6 +24,7 @@ This project creates:
 ## File Descriptions
 
 - **Provider.tf**: Configures the AWS provider and region.
+- **vpc.tf**: Defines the Virtual Private Cloud (VPC) and related networking resources such as subnets, internet gateway, and route tables.
 - **Instance.tf**: Defines the EC2 instance, including AMI, instance type, key pair, and user data for provisioning the web server.
 - **KeyPair.tf**: Manages the SSH key pair used to access the EC2 instance.
 - **SecurityGroup.tf**: Sets up firewall rules to allow SSH (port 22) and HTTP (port 80) access.
